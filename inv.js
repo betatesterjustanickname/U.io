@@ -10,7 +10,7 @@ function L(){
  const cols=Math.max(1,Math.floor((gw+gap)/(cs+gap)));
  const cells=[],heads=[];
  let y=gy-sy;
- for(let t=4;t>=0;t--){
+ for(let t=TIERS.length-1;t>=0;t--){
   const idx=[];
   for(let i=0;i<inv.length;i++)if(inv[i].t===t)idx.push(i);
   if(!idx.length)continue;
