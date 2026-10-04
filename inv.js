@@ -121,5 +121,6 @@ function panel(){
 }
 const _d=draw;
 draw=function(a,b,c2,d){_d(a,b,c2,d);if(open)panel()};
+window.INV={get:function(){return inv},add:add,rem:rem};
 })();
 // END INV
