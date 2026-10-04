@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>U.io</title>
+<style>
+body{margin:0;background:#1d4d38;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;font-family:sans-serif}
+canvas{display:block}
+#back{position:fixed;top:10px;left:10px;z-index:50;width:44px;height:44px;border-radius:10px;background:#b33;border:3px solid rgba(0,0,0,.4);color:#fff;font:bold 24px sans-serif;text-align:center;line-height:40px;text-decoration:none}
+#ld{position:fixed;inset:0;z-index:99;background:#1d4d38;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;transition:opacity .5s}
+#ld .t{font-size:48px;font-weight:bold}
+#ld .e{display:none;margin-top:16px;max-width:420px;font-size:18px;line-height:1.4}
+#ld .d{display:none;margin-top:10px;max-width:420px;font-size:11px;color:#f99}
+</style></head><body>
+<canvas id="c"></canvas>
+<a id="back" href="index.html">&#10005;</a>
+<div id="ld"><div class="t">U.io</div><div id="lt" style="margin-top:10px">Loading...</div>
+<div class="e" id="le">there is a bug in the codes or something developer trying to fix sorry :(</div>
+<div class="d" id="ldd"></div></div>
+<script>
+var failed=false;
+function fail(m){failed=true;document.getElementById('ld').style.display='flex';document.getElementById('ld').style.opacity='1';document.getElementById('lt').style.display='none';document.getElementById('le').style.display='block';var d=document.getElementById('ldd');d.style.display='block';d.textContent=m||''}
+window.addEventListener('error',function(e){fail(e.message+' ('+(e.filename||'').split('/').pop()+' line '+e.lineno+')')});
+window.addEventListener('load',function(){setTimeout(function(){
+ if(failed)return;
+ if(!window.UIO_READY){fail('missing files: '+(window.UIO_READY===undefined?'core.js not loaded':'game.js not finished'));return}
+ var l=document.getElementById('ld');l.style.opacity='0';setTimeout(function(){l.style.display='none'},500);
+},700)});
+</script>
+<script src="core.js"></script>
+<script src="game.js"></script>
+</body></html>
