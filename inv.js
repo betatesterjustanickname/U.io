@@ -3,6 +3,15 @@ let open=false,sel=-1,sy=0,drag=null,dragged=false;
 let inv=[{k:'shard',t:0,n:6},{k:'pebble',t:0,n:3},{k:'spark',t:0,n:4},{k:'shard',t:2,n:1},{k:'spark',t:3,n:1},{k:'pebble',t:4,n:1}];
 function add(k,t){for(const s of inv)if(s.k===k&&s.t===t){s.n++;return}inv.push({k:k,t:t,n:1})}
 function rem(i){inv[i].n--;if(inv[i].n<=0)inv.splice(i,1)}
+function roll(){
+ if(Math.random()>.5)return null;
+ const w=[70,22,6,1.5,.5];let s=0;for(const v of w)s+=v;
+ let r=Math.random()*s,t=0;
+ for(let i=0;i<w.length;i++){r-=w[i];if(r<=0){t=i;break}}
+ const ks=Object.keys(PET);
+ return{k:ks[Math.floor(Math.random()*ks.length)],t:t};
+}
+window.INV={get:function(){return inv},add:add,rem:rem,roll:roll};
 function L(){
  const px=10,py=10,pw=c.width-20,ph=c.height-20;
  const sw=150,gx=px+16,gw=pw-sw-32,gy=py+56,gh=ph-70;
@@ -23,12 +32,12 @@ function L(){
  const total=y+sy-gy;
  const ss=Math.max(30,Math.min(46,(ph-150)/5-8));
  const sx=px+pw-sw+8;
- const prim=[],sec=[];
+ const prim2=[],sec2=[];
  for(let i=0;i<5;i++){
-  prim.push({x:sx,y:py+80+i*(ss+8),s:ss});
-  sec.push({x:sx+ss+14,y:py+80+i*(ss+8),s:ss});
+  prim2.push({x:sx,y:py+80+i*(ss+8),s:ss});
+  sec2.push({x:sx+ss+14,y:py+80+i*(ss+8),s:ss});
  }
- return{px:px,py:py,pw:pw,ph:ph,gx:gx,gy:gy,gw:gw,gh:gh,cs:cs,cells:cells,heads:heads,total:total,prim:prim,sec:sec,
+ return{px:px,py:py,pw:pw,ph:ph,gx:gx,gy:gy,gw:gw,gh:gh,cs:cs,cells:cells,heads:heads,total:total,prim:prim2,sec:sec2,
   close:{x:px+pw-46,y:py+8,w:38,h:38},sx:sx,ss:ss};
 }
 function inR(px,py,x0,y0,w,h){return px>=x0&&px<=x0+w&&py>=y0&&py<=y0+h}
@@ -74,16 +83,6 @@ addEventListener('pointerup',function(e){
  drag=null;
 },true);
 addEventListener('pointercancel',function(e){if(open){e.stopImmediatePropagation();drag=null}},true);
-function drop(){
- if(Math.random()>.35)return;
- const w=[70,22,6,1.5,.5];let s=0;for(const v of w)s+=v;
- let r=Math.random()*s,t=0;
- for(let i=0;i<w.length;i++){r-=w[i];if(r<=0){t=i;break}}
- const ks=Object.keys(PET),k=ks[Math.floor(Math.random()*ks.length)];
- add(k,t);toast('+ '+PET[k].n+' ('+TIERS[t].n+')');
-}
-const _s=step;
-step=function(dt){const k=kills;_s(dt);for(let j=k;j<kills;j++)drop()};
 function panel(){
  const l=L();
  x.globalAlpha=.97;x.fillStyle='#1f4f7a';x.fillRect(l.px,l.py,l.pw,l.ph);x.globalAlpha=1;
@@ -115,12 +114,11 @@ function panel(){
   slot(l.sec[i].x,l.sec[i].y,l.ss,sec[i]);
  }
  if(sel>=0&&inv[sel]){
-  x.fillStyle='#fff';x.font='bold 13px sans-serif';
+  x.fillStyle='#fff';x.font='bold 13px sans-serif';x.textAlign='left';
   x.fillText(PET[inv[sel].k].n+' ('+TIERS[inv[sel].t].n+')',l.sx,l.py+l.ph-20);
  }
 }
 const _d=draw;
 draw=function(a,b,c2,d){_d(a,b,c2,d);if(open)panel()};
-window.INV={get:function(){return inv},add:add,rem:rem};
 })();
 // END INV
