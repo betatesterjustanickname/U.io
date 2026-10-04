@@ -61,7 +61,7 @@ draw=function(atk,def,jp,G){
   if(!vis(m.x,m.y,70))continue;
   if(m._h===undefined)m._h=m.hp;
   if(m.hp<m._h){ft.push({x:m.x,y:m.y-m.r-6,t:.7,s:String(Math.round(m._h-m.hp))});burst(m.x,m.y,5,'#d9b0ff');m._h=m.hp}
-  const ph=m.x*.013+m.y*.011,wob=1+Math.sin(tm*7+ph)*.05,R2=m.r*wob;
+  const ph=m.x*.013+m.y*.011,R2=m.r;
   shadow(m.x,m.y,m.r);
   x.save();x.translate(m.x,m.y);x.rotate(tm*.6+ph);
   x.fillStyle='#5a3a78';
