@@ -1,21 +1,4 @@
 (function(){
-const TILE=256,tc=document.createElement('canvas');
-tc.width=TILE;tc.height=TILE;
-(function(){
- const g=tc.getContext('2d');g.fillStyle='#2f8a5a';g.fillRect(0,0,TILE,TILE);
- let s=12345;const rnd=function(){s=(s*16807)%2147483647;return s/2147483647};
- const el=[];
- for(let i=0;i<46;i++)el.push({t:0,x:rnd()*TILE,y:rnd()*TILE,r:10+rnd()*22,d:rnd()<.5});
- for(let i=0;i<70;i++)el.push({t:1,x:rnd()*TILE,y:rnd()*TILE,h:5+rnd()*6});
- for(let i=0;i<7;i++)el.push({t:2,x:rnd()*TILE,y:rnd()*TILE,c:['#f2e9a0','#f0b6d0','#ffffff'][i%3]});
- for(let ox=-TILE;ox<=TILE;ox+=TILE)for(let oy=-TILE;oy<=TILE;oy+=TILE)for(const e of el){
-  const px=e.x+ox,py=e.y+oy;
-  if(e.t===0){g.fillStyle=e.d?'rgba(20,90,50,.22)':'rgba(120,200,120,.14)';g.beginPath();g.arc(px,py,e.r,0,6.2832);g.fill()}
-  else if(e.t===1){g.strokeStyle='rgba(15,70,40,.35)';g.lineWidth=2;g.lineCap='round';g.beginPath();g.moveTo(px,py);g.lineTo(px-2,py-e.h);g.moveTo(px,py);g.lineTo(px+3,py-e.h*.8);g.stroke()}
-  else{g.fillStyle=e.c;g.beginPath();g.arc(px,py,3,0,6.2832);g.fill();g.fillStyle='#e8c040';g.beginPath();g.arc(px,py,1.2,0,6.2832);g.fill()}
- }
-})();
-const pat=x.createPattern(tc,'repeat');
 let gp=[],ft=[],lt=0,shake=0,hitF=0,lastHp=null;
 function rr(a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
 function vis(px,py,m){return Math.abs(px-P.x)<c.width/2+m&&Math.abs(py-P.y)<c.height/2+m}
@@ -49,7 +32,8 @@ draw=function(atk,def,jp,G){
  const cx=P.x-c.width/2,cy=P.y-c.height/2;
  x.fillStyle='#143a29';x.fillRect(0,0,c.width,c.height);
  x.save();x.translate(sxo-cx,syo-cy);
- x.fillStyle=pat;x.fillRect(0,0,W,H);
+ x.fillStyle='#2f8a5a';x.fillRect(0,0,W,H);
+ drawTris();
  x.strokeStyle='#0f2f20';x.lineWidth=16;x.strokeRect(0,0,W,H);
  for(const q of fx){
   if(!q.s){q.s=1;burst(q.x,q.y,12,'#d9b0ff')}
@@ -79,7 +63,7 @@ draw=function(atk,def,jp,G){
  }
  const fl=P.inv>0&&Math.floor(tm*20)%2;
  shadow(P.x,P.y,16);
- x.save();x.translate(P.x,P.y);const br=1+Math.sin(tm*3)*.025;x.scale(br,br);
+ x.save();x.translate(P.x,P.y);
  circ(0,0,16,fl?'#ffb0b0':'#ffd84d','#b8962e',3);
  x.fillStyle='rgba(255,255,255,.35)';x.beginPath();x.arc(-5,-7,5,0,6.2832);x.fill();
  for(const sd of [-1,1]){
