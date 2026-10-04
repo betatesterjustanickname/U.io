@@ -80,7 +80,7 @@ function draw(atk,def,jp,G){
   x.fillStyle='#000';x.fillRect(mx-16,my-m.r-9,32,4);x.fillStyle='#e55';x.fillRect(mx-16,my-m.r-9,32*Math.max(0,m.hp/m.mx),4);
  }
  const flash=P.inv>0&&Math.floor(tm*20)%2;
- circ(X,Y,16,flash?'#ffb0b0':'#4fd1c5','#2a8f86',3);
+ circ(X,Y,16,flash?'#ffb0b0':'#ffd84d','#b8962e',3);
  for(const sd of [-1,1]){
   const ex=X+sd*6,ey=Y-1;
   circ(ex,ey,2.8,'#000');
