@@ -1,0 +1,28 @@
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:#1ea761;font-family:Arial,Helvetica,sans-serif;touch-action:none}
+canvas{position:absolute;left:0;top:0;display:block}
+.hidden{display:none!important}
+.btn{background:#4a4a4a;color:#fff;border:4px solid #333;border-radius:8px;font-weight:bold;font-size:18px;padding:10px 18px;cursor:pointer;text-shadow:0 2px 0 #222}
+.btn:active{filter:brightness(.85)}
+.btn.green{background:#1ea761;border-color:#15753f}
+#menu{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#1ea761}
+#menu h1{margin:0;font-size:84px;color:#fff;-webkit-text-stroke:6px #222;paint-order:stroke fill;letter-spacing:2px}
+#menu p{margin:0;color:#e8ffe8;font-size:16px}
+#menu .btn{font-size:28px;padding:14px 48px}
+#hud{position:absolute;inset:0;z-index:5;pointer-events:none}
+#topbar{position:absolute;top:10px;right:10px;display:flex;gap:8px;pointer-events:auto}
+#topbar .btn{font-size:15px;padding:8px 12px}
+#slots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:6px;pointer-events:auto}
+.slot{width:44px;height:44px;border-radius:8px;border:3px solid #333;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.slot .pt{width:34px;height:34px;border-radius:50%;border:3px solid}
+#inv{position:absolute;inset:0;z-index:15;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+#invbox{width:min(560px,94vw);max-height:88vh;background:#6b6b6b;border:5px solid #333;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
+#invhead{display:flex;justify-content:space-between;align-items:center;color:#fff;font-weight:bold;font-size:22px;text-shadow:0 2px 0 #222}
+#tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.tab{flex:none;padding:6px 10px;border-radius:6px;border:3px solid #333;font-weight:bold;font-size:13px;color:#fff;text-shadow:0 1px 0 #000;cursor:pointer;opacity:.6}
+.tab.on{opacity:1;border-color:#fff}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;overflow-y:auto;min-height:110px}
+.item{background:rgba(0,0,0,.3);border-radius:8px;border:3px solid #333;padding:6px 2px;color:#fff;font-size:12px;font-weight:bold;text-align:center;cursor:pointer}
+.item .pt{width:40px;height:40px;border-radius:50%;border:4px solid;margin:0 auto 4px}
+.item:active{filter:brightness(.8)}
+#hint{color:#ddd;font-size:12px}
