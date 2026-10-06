@@ -6,10 +6,16 @@ const slots = new Array(SLOT_COUNT).fill(null);
 const keys = {};
 let joy = null;
 
-const mobs = MOB_DEFS.map((d,i)=>({
-  ...d, x:(i-(MOB_DEFS.length-1)/2)*170, y:-230,
-  hits:[], total:0, lastHit:0, first:0
-}));
+// Place mobs in rows: row 0 is closest to the spawn point.
+const rowCount = {}, rowIdx = {};
+MOB_DEFS.forEach(d => rowCount[d.row] = (rowCount[d.row]||0) + 1);
+const mobs = MOB_DEFS.map(d => {
+  const i = rowIdx[d.row] = (rowIdx[d.row]||0) + 1;
+  return {
+    ...d, x:(i-1-(rowCount[d.row]-1)/2)*170, y:-250-d.row*230,
+    hits:[], total:0, lastHit:0, first:0
+  };
+});
 
 function fmt(n){
   if(n<1000) return n>=100 ? String(Math.round(n)) : String(Math.round(n*10)/10);
