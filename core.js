@@ -1,18 +1,21 @@
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
 let W, H, dpr, zoom, running = false, T = 0, last = 0, spin = 0, curRar = 0;
-const player = {x:0, y:0, r:24, speed:250};
+let mode = 'sandbox', worldSize = WORLD;
+const player = {x:0, y:0, r:24, speed:250, hp:PLAYER_HP, max:PLAYER_HP};
 const slots = new Array(SLOT_COUNT).fill(null);
 const keys = {};
 let joy = null;
+// Survival state
+let smobs = [], wave = 0, waveTimer = 2, deadT = 0;
 
-// Place mobs in rows: row 0 is closest to the spawn point.
+// Sandbox mobs in rows: row 0 is closest to the spawn point.
 const rowCount = {}, rowIdx = {};
 MOB_DEFS.forEach(d => rowCount[d.row] = (rowCount[d.row]||0) + 1);
-const mobs = MOB_DEFS.map(d => {
+const mobs = MOB_DEFS.map((d,n) => {
   const i = rowIdx[d.row] = (rowIdx[d.row]||0) + 1;
   return {
-    ...d, x:(i-1-(rowCount[d.row]-1)/2)*170, y:-250-d.row*230,
+    ...d, id:n, x:(i-1-(rowCount[d.row]-1)/2)*170, y:-250-d.row*230,
     hits:[], total:0, lastHit:0, first:0
   };
 });
