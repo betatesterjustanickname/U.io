@@ -1,5 +1,7 @@
+let slotEls=[];
+
 function renderSlots(){
-  const el=$('slots'); el.innerHTML='';
+  const el=$('slots'); el.innerHTML=''; slotEls=[];
   slots.forEach((s,i)=>{
     const d=document.createElement('div'); d.className='slot';
     if(s){
@@ -8,7 +10,16 @@ function renderSlots(){
         ';border-color:'+shade(r.color,-50)+'"></div>';
       d.onclick=()=>{slots[i]=null;renderSlots();};
     }
-    el.appendChild(d);
+    el.appendChild(d); slotEls.push(d);
+  });
+}
+
+function updateSlotsUI(){
+  slots.forEach((s,i)=>{
+    const pt=slotEls[i]&&slotEls[i].firstChild;
+    if(!s||!pt) return;
+    pt.style.opacity=s.alive?1:.35;
+    pt.textContent=s.alive?'':Math.max(0,s.reload).toFixed(1);
   });
 }
 
@@ -26,7 +37,10 @@ function renderInv(){
   PETALS.forEach(p=>{
     const it=document.createElement('div'); it.className='item';
     it.innerHTML='<div class="pt" style="background:'+r.color+
-      ';border-color:'+shade(r.color,-50)+'"></div>'+p.name;
+      ';border-color:'+shade(r.color,-50)+'"></div>'+p.name+
+      '<small>DMG '+fmt(p.damage*r.mult)+'</small>'+
+      '<small>HP '+fmt(p.hp*r.mult)+'</small>'+
+      '<small>Reload '+p.reload+'s</small>';
     it.onclick=()=>equip(p.id,curRar);
     g.appendChild(it);
   });
@@ -34,12 +48,12 @@ function renderInv(){
 
 function equip(id,rar){
   let i=slots.findIndex(s=>!s); if(i<0) i=SLOT_COUNT-1;
-  slots[i]={id,rar,cd:{}}; renderSlots();
+  const s={id,rar}; resetPetal(s); slots[i]=s; renderSlots();
 }
 
 $('playBtn').onclick=()=>{
   $('menu').classList.add('hidden'); $('hud').classList.remove('hidden');
-  running=true;
+  startSandbox(); running=true;
 };
 $('menuBtn').onclick=()=>{
   running=false; $('hud').classList.add('hidden');
