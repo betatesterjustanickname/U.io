@@ -6,25 +6,21 @@ function circle(x,y,r,fill){
 }
 
 function draw(){
+  const bg=mode==='sandbox'?['#14683c','#1ea761']:['#3b3322','#8a7650'];
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.fillStyle='#14683c'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=bg[0]; ctx.fillRect(0,0,W,H);
   ctx.setTransform(dpr*zoom,0,0,dpr*zoom,
     dpr*(W/2-zoom*player.x),dpr*(H/2-zoom*player.y));
-  const B=WORLD+40;
-  ctx.fillStyle='#1ea761'; ctx.fillRect(-B,-B,B*2,B*2);
+  const B=worldSize+40;
+  ctx.fillStyle=bg[1]; ctx.fillRect(-B,-B,B*2,B*2);
   ctx.strokeStyle='rgba(0,0,0,.10)'; ctx.lineWidth=2; ctx.beginPath();
   for(let v=-B;v<=B;v+=50){
     ctx.moveTo(v,-B); ctx.lineTo(v,B); ctx.moveTo(-B,v); ctx.lineTo(B,v);
   }
   ctx.stroke();
-  mobs.forEach(drawMob);
-  slots.forEach(s=>{
-    if(!s||s.x===undefined) return;
-    const p=PETALS.find(x=>x.id===s.id), c=RAR[s.rar].color;
-    ctx.beginPath(); ctx.arc(s.x,s.y,p.radius,0,Math.PI*2);
-    ctx.fillStyle=c; ctx.fill();
-    ctx.lineWidth=3; ctx.strokeStyle=shade(c,-60); ctx.stroke();
-  });
+  if(mode==='sandbox'){ mobs.forEach(drawMob); drawPortal(); }
+  else drawSMobs();
+  drawPetals();
   circle(player.x,player.y,player.r,'#ffe763');
   ctx.fillStyle='#222'; ctx.beginPath();
   ctx.arc(player.x-8,player.y-5,3.2,0,7);
@@ -32,6 +28,7 @@ function draw(){
   ctx.beginPath(); ctx.arc(player.x,player.y+4,7,.15*Math.PI,.85*Math.PI);
   ctx.lineWidth=2.5; ctx.strokeStyle='#222'; ctx.stroke();
   drawJoystick();
+  drawHud();
 }
 
 function drawJoystick(){
